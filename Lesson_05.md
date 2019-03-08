@@ -372,5 +372,5 @@
     ```
 
 2. Prepare for next tutorial.
-   * "The Road to React" pages 28 to x
+   * "The Road to React" pages 28 to 36
    * https://reactjs.org/docs/state-and-lifecycle.html

@@ -579,3 +579,14 @@ The key idea is as follows:
 Conceptually, here is a diagram explaining it.
 
 ![List View Example](media/lesson_5_3.png)
+
+
+### (6) Homework
+
+1. Assignment. Add close buttons per row (as you learned in this lesson) to the last lessons assignment.
+
+2. Prepare for next tutorial.
+   * "The Road to React" pages 37 to 46
+   * https://reactjs.org/docs/handling-events.html
+   * https://en.wikipedia.org/wiki/Higher-order_function
+   * https://reactjs.org/docs/forms.html
