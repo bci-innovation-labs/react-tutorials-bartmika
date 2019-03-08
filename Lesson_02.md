@@ -13,7 +13,7 @@ Using what you learned in the previous lesson, create our ``react`` app titled `
 ### (2) Introduction
 #### What is JSX?
 
-Key ideas:
+##### Key ideas:
 
 1. It is **syntax**.
 
@@ -22,6 +22,61 @@ Key ideas:
 3. It is how the **state changes** over time
 
 3. And it is how the **data** is prepared for **display**.
+
+4. **JSX mixes up HTML and JavaScript to define React components**
+
+##### Examples:
+###### Example 1:
+It is the main component of your application.
+
+```js
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+
+###### Example 2:
+It can be any component you create.
+
+```js
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+```
+
+###### Example 3:
+``JSX`` can be a simple line of code like this.
+
+```js
+var element = <h1>Hello Bart!</h1>
+```
 
 
 ### (3) App.js

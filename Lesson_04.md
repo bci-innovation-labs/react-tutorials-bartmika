@@ -255,5 +255,5 @@
 ### (7) Homework
 
 1. Prepare for next tutorial.
-
-    * https://reactjs.org/docs/state-and-lifecycle.html
+    * "The Road to React" pages 16 to 27
+    * https://reactjs.org/docs/lists-and-keys.html
