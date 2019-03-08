@@ -702,4 +702,4 @@ export default App;
 1. Assignment. Add close buttons per row (as you learned in this lesson) to the last lessons assignment.
 
 2. Prepare for next tutorial.
-   * "The Road to React" pages 46 to x
+   * "The Road to React" pages 46 to 58
