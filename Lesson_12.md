@@ -1,229 +1,287 @@
 ## Lesson 12 - Redux
-### (1) Create our app.
-  ```
-  cd ~/javascript/bcinnovationlabs/
-  create-react-app lesson-12
-  cd lesson-12
-  npm start
-  ```
+### (1) Theory
 
-### (2) Theory
+* Read:
 
-* Read https://www.robinwieruch.de/react-redux-tutorial/
+  * https://www.robinwieruch.de/react-redux-tutorial/
 
-### (3) Practice
+  * https://medium.freecodecamp.org/how-to-use-redux-in-reactjs-with-real-life-examples-687ab4441b85
 
-1. Follow along reading https://medium.freecodecamp.org/how-to-use-redux-in-reactjs-with-real-life-examples-687ab4441b85.
+### (1) Practice
 
-2. Run the following.
+1. Setup our repo.
 
-    ```js
-    create-react-app react-redux-tutorial
-    cd react-redux-tutorial
-    npm install
+    ```
+    cd ~/javascript/bcinnovationlabs/
+    create-react-app lesson-12a
+    cd lesson-12a
+    npm install --save redux react-redux
     npm start
     ```
 
-3. Stop and run:
+2. Read the following link https://blog.tylerbuchea.com/super-simple-react-redux-application-example/ as the following section is copied from there.
+
+3. Create the ``src/redux.js`` file and populate the following code:
 
     ```js
-    npm install --save redux react-redux
-    ```
+    import {
+      combineReducers,
+      createStore,
+    } from 'redux';
 
-4. Create our files.
+    // actions.js
+    export const activateGeod = geod => ({
+      type: 'ACTIVATE_GEOD',
+      geod,
+    });
 
-    ```bash
-    mkdir src/actions
-    touch src/actions/startAction.js
-    touch src/actions/stopAction.js
-    ```
+    export const closeGeod = () => ({
+      type: 'CLOSE_GEOD',
+    });
 
-5. Now let’s edit the ``src/actions/startAction.js`` as follows:
-
-    ```js
-    export const startAction = {
-        type: "rotate",
-        payload: true
+    // reducers.js
+    export const geod = (state = {}, action) => {
+      switch (action.type) {
+        case 'ACTIVATE_GEOD':
+          return action.geod;
+        case 'CLOSE_GEOD':
+          return {};
+        default:
+          return state;
+      }
     };
-    ```
 
-6. Now let’s edit the ``src/actions/stopAction.js`` as follows:
+    export const reducers = combineReducers({
+      geod,
+    });
 
-    ```js
-    export const stopAction = {
-        type: "rotate",
-        payload: false
+    // store.js
+    export function configureStore(initialState = {}) {
+      const store = createStore(reducers, initialState);
+      return store;
     };
+
+    export const store = configureStore();
     ```
 
-7. Now lets create our reducers.
-
-    ```bash
-    mkdir src/reducers
-    touch src/reducers/rotateReducer.js
-    ```
-
-8. And add the following to it.
+4. Update our ``src/App.js`` file with the following code:
 
     ```js
-    export default (state, action) => {
-        switch (action.type) {
-          case "rotate":
-            return {
-              rotating: action.payload
-            };
-          default:
-            return state;
-        }
-    };
-    ```
+    import React from 'react';
 
-9. Create our store.
+    import { connect } from 'react-redux';
 
-    ```bash
-    touch src/store.js
-    ```
+    import { activateGeod, closeGeod } from './redux';
 
-10. And populate that file with.
-
-    ```js
-    import { createStore } from "redux";
-    import rotateReducer from "reducers/rotateReducer";
-    function configureStore(state = { rotating: true }) {
-      return createStore(rotateReducer,state);
-    }
-    export default configureStore;
-    ```
-
-11. Run the following.
-
-    ```bash
-    echo "NODE_PATH=./src" > .env
-    ```
-
-12. Inside the ``src/App.css`` file append the following:
-
-    ```js
-    .App-logo-paused {
-        animation-play-state: paused;
-    }
-    ```
-
-13. Inside our ``src/App.js`` file, copy and paste the following. We will add the redux action and integrate our ``App`` with the ``redux`` store.
-
-    ```js
-    import React, { Component } from 'react';
-    import { connect } from "react-redux"; // STEP 1: Import our redux library stuff.
-    import logo from './logo.svg';
-    import './App.css';
-
-    // STEP 2: Import our actions.
-    import { startAction } from "actions/startAction";
-    import { stopAction } from "actions/stopAction";
-
-    class App extends Component {
+    // App.js
+    export class App extends React.Component {
       render() {
         return (
-          <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <p>
-                Edit <code>src/App.js</code> and save to reload.
-              </p>
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
+          <div>
+            <h1>{this.props.geod.title || 'Hello World!'}</h1>
+
+            {this.props.geod.title ? (
+              <button onClick={this.props.closeGeod}>Exit Geod</button>
+            ) : (
+              <button
+                onClick={() =>
+                  this.props.activateGeod({ title: 'I am a geo dude!' })
+                }
               >
-                Learn React
-              </a>
-            </header>
+                Click Me!
+              </button>
+            )}
           </div>
         );
       }
     }
 
-    // STEP 3: Connect our application with the redux store.
-    export default connect()(App);
-    ```
-
-14. At the end of the file add.
-
-    ```js
+    // AppContainer.js
     const mapStateToProps = state => ({
-        ...state
+      geod: state.geod,
     });
-    const mapDispatchToProps = dispatch => ({
-        startAction: () => dispatch(startAction),
-        stopAction: () => dispatch(stopAction)
-    });
+
+    const mapDispatchToProps = {
+      activateGeod,
+      closeGeod,
+    };
+
+    const AppContainer = connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(App);
+
+    export default AppContainer;
     ```
 
-15. At the very bottom, replace this line:
-
-    ```js
-    export default connect()(App);
-    ```
-
-16. With this code:
-
-    ```js
-    export default connect(mapStateToProps, mapDispatchToProps)(App);
-    ```
-
-17. Replace this code:
-
-    ```html
-     <img src={logo} className="App-logo" alt="logo" />
-    ```
-
-18. With this code:
-
-    ```html
-    <img
-    src={logo}
-    className={
-      "App-logo" + (this.props.rotating ? "":" App-logo-paused")
-    }
-    alt="logo"
-    onClick={
-      this.props.rotating ?
-        this.props.stopAction : this.props.startAction
-    }
-    />
-    ```
-
-19. Go to the following file ``src/index.js`` and edit the code to look like this:
+5. Update the ``src/index.js`` with the follwing code:
 
     ```js
     import React from 'react';
     import ReactDOM from 'react-dom';
-    import './index.css';
     import App from './App';
-    import * as serviceWorker from './serviceWorker';
+    import './index.css';
 
-    // STEP 1: Import our redux.
-    import { Provider } from "react-redux";
-    import configureStore from "store";
+    // Add these imports - Step 1
+    import { Provider } from 'react-redux';
+    import { store } from './redux';
 
-    // STEP 2: Integrate our store.
+    // Wrap existing app in Provider - Step 2
     ReactDOM.render(
-      <Provider store={configureStore()}>
+      <Provider store={store}>
         <App />
       </Provider>,
       document.getElementById('root')
     );
-
-    // If you want your app to work offline and load faster, you can change
-    // unregister() to register() below. Note this comes with some pitfalls.
-    // Learn more about service workers: https://bit.ly/CRA-PWA
-    serviceWorker.unregister();
     ```
 
-20. Also lets integrate our application with default configuration stores. The code will look like this.
+
+### (2) Practice - Continued
+
+1. Setup our repo.
+
+    ```
+    cd ~/javascript/bcinnovationlabs/
+    create-react-app lesson-12b
+    cd lesson-12b
+    npm install --save redux react-redux redux-thunk
+    npm start
+    ```
+
+2. We will be creating a simple app by following the instructions from https://blog.tylerbuchea.com/super-simple-react-redux-application-example/.
+
+3. Create a file in ``src/redux.js`` and populate it with the following code:
+
+    ```js
+    import { applyMiddleware, combineReducers, createStore } from 'redux';
+
+    import thunk from 'redux-thunk';
+
+    // actions.js
+    export const addRepos = repos => ({
+      type: 'ADD_REPOS',
+      repos,
+    });
+
+    export const clearRepos = () => ({ type: 'CLEAR_REPOS' });
+
+    export const getRepos = username => async dispatch => {
+      try {
+        const url = `https://api.github.com/users/${username}/repos?sort=updated`;
+        const response = await fetch(url);
+        const responseBody = await response.json();
+        dispatch(addRepos(responseBody));
+      } catch (error) {
+        console.error(error);
+        dispatch(clearRepos());
+      }
+    };
+
+    // reducers.js
+    export const repos = (state = [], action) => {
+      switch (action.type) {
+        case 'ADD_REPOS':
+          return action.repos;
+        case 'CLEAR_REPOS':
+          return [];
+        default:
+          return state;
+      }
+    };
+
+    export const reducers = combineReducers({ repos });
+
+    // store.js
+    export function configureStore(initialState = {}) {
+      const store = createStore(reducers, initialState, applyMiddleware(thunk));
+      return store;
+    }
+
+    export const store = configureStore();
+    ```
+
+4. Copy and paste this code into your ``src/App.js`` file:
+
+    ```js
+    import React, { Component } from 'react';
+
+    import { connect } from 'react-redux';
+
+    import { getRepos } from './redux';
+
+    // App.js
+    export class App extends Component {
+      state = { username: 'tylerbuchea' };
+
+      componentDidMount() {
+        this.updateRepoList(this.state.username);
+      }
+
+      updateRepoList = username => this.props.getRepos(username);
+
+      render() {
+        return (
+          <div>
+            <h1>I AM AN ASYNC APP!!!</h1>
+            <strong>Github username: </strong>
+            <input
+              type="text"
+              value={this.state.username}
+              onChange={ev => this.setState({ username: ev.target.value })}
+              placeholder="Github username..."
+            />
+            <button onClick={() => this.updateRepoList(this.state.username)}>
+              Get Lastest Repos
+            </button>
+            <ul>
+              {this.props.repos.map((repo, index) => (
+                <li key={index}>
+                  <a href={repo.html_url} target="_blank">
+                    {repo.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+    }
+
+    // AppContainer.js
+    const mapStateToProps = (state, ownProps) => ({ repos: state.repos });
+    const mapDispatchToProps = { getRepos };
+    const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
+
+    export default AppContainer;
+    ```
+
+5. Update your ``src/index.css`` file to be like this:
+
+    ```js
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    ```
+
+6. Finally update your ``src/index.js`` file to be:
 
     ```js
     import React from 'react';
+    import ReactDOM from 'react-dom';
+    import AppContainer from './App';
+    import './index.css';
 
+    // Add these imports - Step 1
+    import { Provider } from 'react-redux';
+    import { store } from './redux';
+
+    // Wrap existing app in Provider - Step 2
+    ReactDOM.render(
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>,
+      document.getElementById('root')
+    );
     ```
