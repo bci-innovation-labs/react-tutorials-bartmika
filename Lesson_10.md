@@ -1,4 +1,4 @@
-## Lesson 09 - Redux
+## Lesson 10 - Routes
 ### (1) Create our app.
   ```
   cd ~/javascript/bcinnovationlabs/

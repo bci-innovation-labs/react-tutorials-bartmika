@@ -11,6 +11,8 @@
 
 * State is similar to props, but it is private and fully controlled by the component.
 
+* Each time when the state or the props of a component change, the ``render()`` method is called.
+
 ### (3) State Example
 
 1. Take a look at this code. We learned this is two components running to generate the date-time for our computer. We want to update the *Clock* component to have a state. How would we do that?
