@@ -7,7 +7,7 @@
 
   * https://medium.freecodecamp.org/how-to-use-redux-in-reactjs-with-real-life-examples-687ab4441b85
 
-### (1) Practice
+### (2) Practice
 
 1. Setup our repo.
 
@@ -136,7 +136,7 @@
     ```
 
 
-### (2) Practice - Continued
+### (3) Practice - Continued
 
 1. Setup our repo.
 
@@ -285,3 +285,7 @@
       document.getElementById('root')
     );
     ```
+
+### (4) Practice - Extra
+
+* https://itnext.io/tutorial-simple-react-redux-app-cd559621ec00
