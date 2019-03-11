@@ -1,7 +1,15 @@
 ## Lesson 12 - Redux
 ### (1) Theory
 
+* Watch https://youtu.be/nFryvdyMI8s
+
 * Read:
+
+  * https://css-tricks.com/learning-react-redux/
+
+  * https://www.codingame.com/playgrounds/8894/redux-tutorial-for-beginners
+
+* Additonal Reading:
 
   * https://www.robinwieruch.de/react-redux-tutorial/
 
@@ -289,3 +297,5 @@
 ### (4) Practice - Extra
 
 * https://itnext.io/tutorial-simple-react-redux-app-cd559621ec00
+
+* https://www.codingame.com/playgrounds/8894/redux-tutorial-for-beginners

@@ -126,9 +126,10 @@ var element = <h1>Hello Bart!</h1>
 
     ```js
     class App extends Component {
-      render() {
-        return (
-            // Some content is returned in here...
+        render() {
+            return (
+                // Some content is returned in here...
+            )
         }
     }
     ```
@@ -189,7 +190,6 @@ var element = <h1>Hello Bart!</h1>
           <div className="App">
             <h1>Cooking Pot: Dashboard</h1>
             <p>Hello and welcome YOUR_NAME, the last login time is YOUR_TIME.</p>
-
           </div>
         );
       }
